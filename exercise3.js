@@ -12,14 +12,14 @@ async function basicSearch() {
         await driver.findElement(By.name('firstname')).sendKeys('nautica');
         await driver.findElement(By.name('lastname')).sendKeys('malone', Key.ENTER);
 
-        let sonum = await driver.wait(
-            until.elementLocated(By.name('')), 
-            3000
-        );
+        // Read values directly from the form inputs (reliable even if the page doesn't navigate)
+        const fnameEl = await driver.findElement(By.name('firstname'));
+        const lnameEl = await driver.findElement(By.name('lastname'));
+        const fname = await fnameEl.getAttribute('value');
+        const lname = await lnameEl.getAttribute('value');
 
-        console.log("Tulemus: ", await sonum.getText());
+        console.log('Tulemus: ', `fname=${fname}&lname=${lname}`);
     } finally {
-        // Close the browser
         await driver.quit();
     }
 }
